@@ -44,39 +44,39 @@ describe("Valid Domain Logic", () => {
   test.each([
     // test name, length (mm), width (mm), weight (g), postal rate
     ["ID01: Standard envelope, lightweight", 200, 156, 10, "0.49"],
-    /*
-    ["ID02: Standard envelope, regular weight", 200, 156, 10, "0.8"],
-    /*
-    ["ID03: Non-standard envelope, due to heaviness", 200, 156, 10, "0.98"],
-    /*
+    
+    ["ID02: Standard envelope, regular weight", 200, 156, 45, "0.8"],
+    
+    ["ID03: Non-standard envelope, due to heaviness", 200, 156, 60, "0.98"],
+    
     [
       "ID04: Non-standard envelope, due to heaviness, very heavy",
       200,
       156,
-      10,
+      300,
       "2.4",
     ],
-    /*
-    ["ID05: Non-standard envelope, due to length", 200, 156, 10, "0.98"],
-    /*
+    
+    ["ID05: Non-standard envelope, due to length", 330, 156, 10, "0.98"],
+
     [
-      "ID06: Non-standard envelope, due to length and weight",
-      200,
-      156,
-      10,
+      "ID06: Non-standard envelope, due to length and weight", //should pass
+      300,
+      100,
+      150,
       "2.4",
     ],
-    /*
-    ["ID07: Non-standard envelope, due to width", 200, 156, 10, "0.98"],
-    /*
+    
+    ["ID07: Non-standard envelope, due to width", 200, 200, 10, "0.98"],
+  
     [
-      "ID08: Non-standard envelope, due to width and weight",
+      "ID08: Non-standard envelope, due to width and weight", // should pass
       200,
-      156,
-      10,
+      200,
+      150,
       "2.4",
     ],
-    */
+    
   ])("%s", (testName, length_mm, width_mm, weight_g, postalRate) => {
     assertForAllUnits(length_mm, width_mm, weight_g, postalRate);
   });
@@ -111,7 +111,6 @@ function assertForAllUnits(length_mm, width_mm, weight_g, postalRate) {
   }
 }
 
-/* UNCOMMENT AS YOU TEST THEM ONE BY ONE
 describe("Invalid Domain Logic", () => {
   const validReq = {
     body: {
@@ -129,7 +128,7 @@ describe("Invalid Domain Logic", () => {
     };
   }
 
-  /*
+  
   test("ID09: Missing required arguments", () => {
     const req = {
       body: {
@@ -140,7 +139,7 @@ describe("Invalid Domain Logic", () => {
     expected(req, 400);
   });
 
-  /*
+  
   test.each([
     // task name, property, invalid value
     ["ID10: Length too short", "length", 70],
@@ -155,7 +154,7 @@ describe("Invalid Domain Logic", () => {
     assertForAllUnits(req.length, req.width, req.weight, undefined);
   });
 
-  /*
+  
   test.each([
     // task name, property, invalid value
     ["ID16: Distance unit not in mm or in", "distanceUnit", "cm"],
@@ -167,26 +166,26 @@ describe("Invalid Domain Logic", () => {
     expected(req, 400);
   });
 
-  /*
+  
   test("ID18: Invalid request payload syntax", () => {
     const req = {
-      body: [],
+      body: '{wrth"lqrthength": 200,rhqrtehqrth"wqrthidth": 156,qwretgqergqet"weight":qwrth 10qrth}',
     };
 
     expected(req, 400);
   });
 
-  /*
+
   test.each([
     // task name, property, invalid value
     ["ID19: Length is not a number", "length", "200"],
-    ["ID20: Non-empty request parameter", "width", false],
-    ["ID21: Non-empty request parameters", "weight", { name: "cena" }],
+    ["ID20: Width is not a number", "width", "200"],
+    ["ID21: Weight is not a number", "weight", "200"],
   ])("%s", (taskName, property, invalidValue) => {
     const req = cloneValidReq();
     req.body[property] = invalidValue;
 
     expected(req, 400);
   });
-  */
-//});
+
+});
