@@ -1,0 +1,26 @@
+{
+  "name": "ECSE428_AssigmentB",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhaoliang10500/ECSE428_AssigmentB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhaoliang10500/ECSE428_AssigmentB/issues"
+  },
+  "homepage": "https://github.com/zhaoliang10500/ECSE428_AssigmentB#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1"
+  }
+}
