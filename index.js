@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = 8080;
+const ramp = require('./ramp')
 
 app.use( express.json() )
 
@@ -28,3 +29,5 @@ app.post('/smile/:id', (req, res) => {
         smile: `^ - ^ with your ${logo} and ID of ${id}`,
     });
 });
+
+app.get('/ramp', ramp)
