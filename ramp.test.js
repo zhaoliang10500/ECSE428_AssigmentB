@@ -3,15 +3,13 @@ const { mm_to_in, g_to_oz } = require("./helper");
 
 // mock, so is `req`
 const res = {
-  status: 200,
+  code: 200,
+  text: "",
   send(response) {
-    return {
-      status: this.status,
-      text: response,
-    };
+    this.text = response;
   },
   status(code) {
-    this.status = code;
+    this.code = code;
 
     return this;
   },
@@ -29,51 +27,54 @@ const req = {
 };
 
 function expected(req, status, text) {
-  const resReturn = ramp(req, res);
+  ramp(req, res);
 
   if (text === undefined) {
     // 400 status code
-    expect(resReturn.status).toBe(status);
+    expect(res.code).toBe(status);
   } else {
-    expect(resReturn).toEqual({ status, text });
+    expect({ status: res.code, text: res.text }).toEqual({ status, text });
   }
+  // reset it
+  res.code = 200;
+  res.text = "";
 }
 
 describe("Valid Domain Logic", () => {
   test.each([
     // test name, length (mm), width (mm), weight (g), postal rate
-    ["ID01: Standard envelope, lightweight", 200, 156, 10, 0.49],
+    ["ID01: Standard envelope, lightweight", 200, 156, 10, "0.49"],
     /*
-    ["ID02: Standard envelope, regular weight", 200, 156, 10, 0.49],
+    ["ID02: Standard envelope, regular weight", 200, 156, 10, "0.8"],
     /*
-    ["ID03: Non-standard envelope, due to heaviness", 200, 156, 10, 0.49],
+    ["ID03: Non-standard envelope, due to heaviness", 200, 156, 10, "0.98"],
     /*
     [
       "ID04: Non-standard envelope, due to heaviness, very heavy",
       200,
       156,
       10,
-      0.49,
+      "2.4",
     ],
     /*
-    ["ID05: Non-standard envelope, due to length", 200, 156, 10, 0.49],
+    ["ID05: Non-standard envelope, due to length", 200, 156, 10, "0.98"],
     /*
     [
       "ID06: Non-standard envelope, due to length and weight",
       200,
       156,
       10,
-      0.49,
+      "2.4",
     ],
     /*
-    ["ID07: Non-standard envelope, due to width", 200, 156, 10, 0.49],
+    ["ID07: Non-standard envelope, due to width", 200, 156, 10, "0.98"],
     /*
     [
       "ID08: Non-standard envelope, due to width and weight",
       200,
       156,
       10,
-      0.49,
+      "2.4",
     ],
     */
   ])("%s", (testName, length_mm, width_mm, weight_g, postalRate) => {
