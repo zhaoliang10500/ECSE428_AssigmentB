@@ -2,13 +2,13 @@ const { mm_to_in, in_to_mm, g_to_oz, oz_to_g } = require("./helper");
 function ramp(req, res) {
   const { length, width, weight, distanceUnit, weightUnit } = req.body;
   if (length == null || width == null || weight == null) {
-    return res.status(400);
+    res.sendStatus(400);
   }
   if (typeof length != "number" || typeof weight != "number" || typeof width != "number") {
-    return res.status(400);
+    res.sendStatus(400);
   }
   if ((distanceUnit != "mm" && distanceUnit != "in" && distanceUnit !== undefined) || (weightUnit != "g" && weightUnit != "oz" && weightUnit !== undefined)) {
-    return res.status(400);
+    res.sendStatus(400);
   }
   var isStandard = false;
   var isNonStandard = false;
@@ -46,7 +46,7 @@ function ramp(req, res) {
       postalRate = 2.4;
     }
   } else {
-    return res.status(400);
+    res.sendStatus(400);
   }
   res.send(`${postalRate}`);
 }
